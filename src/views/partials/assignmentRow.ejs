@@ -1,0 +1,16 @@
+<article class="assignment-row">
+  <form method="post" action="/assignments/<%= item.id %>/toggle" class="check-form">
+    <button class="check-button <%= item.status === 'Completed' ? 'checked' : '' %>" type="submit">
+      <%= item.status === 'Completed' ? 'Reopen' : 'Complete' %>
+    </button>
+  </form>
+  <div class="assignment-main">
+    <a class="assignment-title <%= item.status === 'Completed' ? 'muted-strike' : '' %>" href="/assignments/<%= item.id %>"><%= item.title %></a>
+    <div class="assignment-meta">
+      <%= item.course ? item.course.name : 'No course' %>
+      <span class="meta-divider">·</span>
+      <%= item.dueDate ? formatDate(item.dueDate) : 'No due date' %>
+    </div>
+  </div>
+  <span class="status status-<%= item.status.toLowerCase().replace(' ', '-') %>"><%= item.status %></span>
+</article>

@@ -1,0 +1,62 @@
+<%- include('partials/head', { title }) %>
+<%- include('partials/pageHeader', {
+  title,
+  heading: 'Semester overview',
+  subheading: 'Keep track of your courses, assignments, and study time.',
+  actionHref: '/assignments/new',
+  actionText: 'Add assignment'
+}) %>
+
+<section class="stat-grid">
+  <div class="stat-card"><span class="stat-top">Open assignments</span><strong><%= stats.open %></strong><small>Not completed</small></div>
+  <div class="stat-card"><span class="stat-top">Completed</span><strong><%= stats.completed %></strong><small>Finished assignments</small></div>
+  <div class="stat-card"><span class="stat-top">Courses</span><strong><%= stats.courses %></strong><small>In your list</small></div>
+  <div class="stat-card"><span class="stat-top">Study time</span><strong><%= Math.floor(stats.minutes / 60) %>h <%= stats.minutes % 60 %>m</strong><small>Logged recently</small></div>
+</section>
+
+<div class="content-grid">
+  <section class="panel">
+    <div class="panel-heading">
+      <h2>Upcoming assignments</h2>
+      <a class="text-link" href="/assignments">View all</a>
+    </div>
+    <% if (upcoming.length) { %>
+      <div class="assignment-list">
+        <% upcoming.forEach(item => { %>
+          <%- include('partials/assignmentRow', { item }) %>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <div class="empty-state">
+        <h3>No upcoming assignments</h3>
+        <p>Add an assignment when you have one to track.</p>
+        <a href="/assignments/new" class="text-link">Add assignment</a>
+      </div>
+    <% } %>
+  </section>
+
+  <section class="panel">
+    <div class="panel-heading">
+      <h2>Courses</h2>
+      <a class="text-link" href="/courses">Manage courses</a>
+    </div>
+    <% if (courses.length) { %>
+      <div class="course-list">
+        <% courses.slice(0, 5).forEach(course => { %>
+          <div class="course-item">
+            <div><strong><%= course.name %></strong></div>
+            <span class="course-count"><%= course.assignments ? course.assignments.length : 0 %> assignments</span>
+          </div>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <div class="empty-state">
+        <h3>No courses yet</h3>
+        <p>Add your classes to organize assignments.</p>
+        <a href="/courses" class="text-link">Add a course</a>
+      </div>
+    <% } %>
+  </section>
+</div>
+
+<%- include('partials/foot') %>

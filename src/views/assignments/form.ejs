@@ -1,0 +1,44 @@
+<%- include('../partials/head', { title }) %>
+<%- include('../partials/pageHeader', {
+  title,
+  heading: assignment ? 'Edit assignment' : 'Add assignment',
+  subheading: 'Add the title, course, due date, and status.'
+}) %>
+<section class="panel form-panel">
+  <form method="post" action="<%= assignment ? '/assignments/' + assignment.id : '/assignments' %>">
+    <label class="field-label" for="title">Assignment name</label>
+    <input id="title" name="title" maxlength="160" value="<%= assignment ? assignment.title : '' %>" required>
+
+    <div class="form-grid">
+      <div>
+        <label class="field-label" for="courseId">Course</label>
+        <select id="courseId" name="courseId" required>
+          <option value="">Choose a course</option>
+          <% courses.forEach(course => { %>
+            <option value="<%= course.id %>" <%= assignment && assignment.course && assignment.course.id === course.id ? 'selected' : '' %>><%= course.name %></option>
+          <% }) %>
+        </select>
+        <% if (!courses.length) { %>
+          <small class="field-hint">Add a course before creating an assignment.</small>
+        <% } %>
+      </div>
+      <div>
+        <label class="field-label" for="dueDate">Due date</label>
+        <input id="dueDate" name="dueDate" type="date" value="<%= assignment ? inputDate(assignment.dueDate) : '' %>">
+      </div>
+    </div>
+
+    <label class="field-label" for="status">Status</label>
+    <select id="status" name="status">
+      <% ['Not started', 'In progress', 'Completed'].forEach(value => { %>
+        <option <%= assignment && assignment.status === value ? 'selected' : (!assignment && value === 'Not started' ? 'selected' : '') %>><%= value %></option>
+      <% }) %>
+    </select>
+
+    <div class="form-actions">
+      <a class="button button-quiet" href="/assignments">Cancel</a>
+      <button class="button button-primary" type="submit"><%= assignment ? 'Save changes' : 'Create assignment' %></button>
+    </div>
+  </form>
+</section>
+<%- include('../partials/foot') %>

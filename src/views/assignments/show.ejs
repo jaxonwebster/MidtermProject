@@ -1,0 +1,27 @@
+<%- include('../partials/head', { title }) %>
+<%- include('../partials/pageHeader', {
+  title,
+  heading: assignment.title,
+  subheading: assignment.course ? assignment.course.name : 'Assignment details',
+  actionHref: '/assignments/' + assignment.id + '/edit',
+  actionText: 'Edit assignment'
+}) %>
+<section class="panel detail-panel">
+  <div class="detail-top">
+    <div><span class="eyebrow">ASSIGNMENT</span><h2><%= assignment.title %></h2></div>
+    <span class="status status-<%= assignment.status.toLowerCase().replace(' ', '-') %>"><%= assignment.status %></span>
+  </div>
+  <div class="detail-grid">
+    <div><span class="detail-label">COURSE</span><strong><%= assignment.course ? assignment.course.name : 'No course' %></strong></div>
+    <div><span class="detail-label">DUE DATE</span><strong><%= formatDate(assignment.dueDate) %></strong></div>
+  </div>
+  <div class="detail-actions">
+    <form method="post" action="/assignments/<%= assignment.id %>/toggle">
+      <button class="button button-primary" type="submit"><%= assignment.status === 'Completed' ? 'Reopen assignment' : 'Mark complete' %></button>
+    </form>
+    <form method="post" action="/assignments/<%= assignment.id %>/delete" onsubmit="return confirm('Delete this assignment?')">
+      <button class="button button-danger" type="submit">Delete assignment</button>
+    </form>
+  </div>
+</section>
+<%- include('../partials/foot') %>

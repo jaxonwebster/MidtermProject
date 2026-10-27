@@ -1,0 +1,6 @@
+<%- include('../partials/head', { title }) %>
+<%- include('../partials/pageHeader', { title, heading: 'Assignments', subheading: 'Everything on your plate, organized in one place.', actionHref: '/assignments/new', actionText: 'Add assignment' }) %>
+<section class="panel table-panel"><div class="panel-heading"><div><span class="eyebrow">YOUR COURSEWORK</span><h2>All assignments <span class="count-pill"><%= assignments.length %></span></h2></div></div>
+  <% if (assignments.length) { %><div class="assignment-list"><% assignments.forEach(item => { %><%- include('../partials/assignmentRow', { item }) %><% }) %></div><% } else { %><div class="empty-state"><h3>No assignments yet</h3><p>Add your first assignment to get your semester organized.</p><a href="/assignments/new" class="button button-primary">Add assignment</a></div><% } %>
+</section>
+<%- include('../partials/foot') %>

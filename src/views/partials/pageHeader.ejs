@@ -1,0 +1,11 @@
+<header class="page-header">
+  <div>
+    <h1><%= typeof heading !== 'undefined' && heading ? heading : title %></h1>
+    <% if (typeof subheading !== 'undefined' && subheading) { %>
+      <p class="page-subtitle"><%= subheading %></p>
+    <% } %>
+  </div>
+  <% if (typeof actionHref !== 'undefined' && actionHref && typeof actionText !== 'undefined' && actionText) { %>
+    <a class="button button-primary" href="<%= actionHref %>"><%= actionText %></a>
+  <% } %>
+</header>

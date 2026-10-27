@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> | Study Space</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="/">Study Space</a>
+    <div class="side-label">Menu</div>
+    <nav class="side-nav">
+      <a class="nav-link <%= currentPath === '/' ? 'active' : '' %>" href="/">Overview</a>
+      <a class="nav-link <%= currentPath.startsWith('/assignments') ? 'active' : '' %>" href="/assignments">Assignments</a>
+      <a class="nav-link <%= currentPath.startsWith('/courses') ? 'active' : '' %>" href="/courses">Courses</a>
+      <a class="nav-link <%= currentPath.startsWith('/study-sessions') ? 'active' : '' %>" href="/study-sessions">Study sessions</a>
+    </nav>
+  </aside>
+  <main class="main-content">

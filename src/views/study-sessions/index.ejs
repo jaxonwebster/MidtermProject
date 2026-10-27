@@ -1,0 +1,54 @@
+<%- include('../partials/head', { title }) %>
+<%- include('../partials/pageHeader', {
+  title,
+  heading: 'Study sessions',
+  subheading: 'Log the time you spend studying.'
+}) %>
+<div class="content-grid sessions-grid">
+  <section class="panel form-panel">
+    <div class="panel-heading"><h2>Log a session</h2></div>
+    <form method="post" action="/study-sessions">
+      <label class="field-label" for="date">Date</label>
+      <input id="date" name="date" type="date" value="<%= new Date().toISOString().slice(0,10) %>" required>
+      <label class="field-label" for="minutes">Time spent (minutes)</label>
+      <input id="minutes" name="minutes" type="number" min="1" max="1440" required>
+      <label class="field-label" for="assignmentId">Related assignment (optional)</label>
+      <select id="assignmentId" name="assignmentId">
+        <option value="">Independent study</option>
+        <% assignments.forEach(item => { %>
+          <option value="<%= item.id %>"><%= item.title %></option>
+        <% }) %>
+      </select>
+      <button class="button button-primary full-button" type="submit">Save session</button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <div class="panel-heading">
+      <h2>Session history</h2>
+      <div class="time-total"><strong><%= Math.floor(totalMinutes / 60) %>h <%= totalMinutes % 60 %>m</strong><small>Total time</small></div>
+    </div>
+    <% if (sessions.length) { %>
+      <div class="session-list">
+        <% sessions.forEach(session => { %>
+          <article class="session-item">
+            <div class="session-copy">
+              <strong><%= session.assignment ? session.assignment.title : 'Independent study' %></strong>
+              <small><%= formatDate(session.date) %></small>
+            </div>
+            <strong class="session-minutes"><%= session.minutes %> min</strong>
+            <form method="post" action="/study-sessions/<%= session.id %>/delete">
+              <button class="button button-danger" type="submit">Delete</button>
+            </form>
+          </article>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <div class="empty-state">
+        <h3>No study sessions yet</h3>
+        <p>Save a session to start tracking your time.</p>
+      </div>
+    <% } %>
+  </section>
+</div>
+<%- include('../partials/foot') %>
